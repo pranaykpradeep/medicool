@@ -1,0 +1,38 @@
+Annotated C as C1.
+Annotated C as C2.
+Annotated 1N47xxA as D1.
+Annotated LED as D2.
+Updated Conn_01x19_Pin from esp32_l to esp32_l1.
+Updated Conn_01x19_Pin from esp32_R to esp32_R1.
+Annotated Heatsink as HS1.
+Updated VIN from J2 to J1.
+Updated P_M_MOSFET from J1 to J2.
+Annotated TEM_SE1 as J3.
+Annotated FAN1_MOSFET as J4.
+Annotated TEM_SE2 as J5.
+Annotated FAN2_MOSFET as J6.
+Annotated LED_DIS as J7.
+Updated P_M_IN from J12 to J8.
+Annotated FAN1_IN as J9.
+Annotated FAN2_IN as J10.
+Annotated L as L1.
+Annotated R as R1.
+Annotated R as R2.
+Annotated R as R3.
+Annotated R as R4.
+Annotated R as R5.
+Annotated R_Trim as R6.
+Annotated R as R7.
+Annotated R as R8.
+Annotated R as R9.
+Annotated R as R10.
+Annotated R as R11.
+Annotated R as R12.
+Annotated R as R13.
+Annotated R as R14.
+Annotated R as R15.
+Annotated SW1 (unit A) as SW1A.
+Annotated SW2 (unit B) as SW2B.
+Annotated SW3 (unit B) as SW3B.
+Annotated LM2596T-5 as U1.
+Annotation complete.
