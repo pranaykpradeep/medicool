@@ -838,7 +838,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "100 ohm"
 			(at 3.81 1.92 0)
 			(layer "F.Fab")
 			(uuid "97152afa-bfcd-4a18-9e84-3606ff747919")
@@ -1489,7 +1489,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100uF"
 			(at 1.75 5.25 90)
 			(layer "F.Fab")
 			(uuid "ba14c8ef-4497-4b02-9ab6-6b1d3c9538b9")
@@ -3231,7 +3231,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "330uF"
 			(at 1.75 5.25 90)
 			(layer "F.Fab")
 			(uuid "8260a936-dd72-4ccd-b583-a9b8a6fe5ead")
@@ -5933,7 +5933,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "100 ohm"
 			(at 3.81 1.92 0)
 			(layer "F.Fab")
 			(uuid "ac5b17b2-6faa-4a28-b2c2-de4316815367")
@@ -6124,7 +6124,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "1kohm"
 			(at 3.81 1.92 90)
 			(layer "F.Fab")
 			(uuid "2dfb086c-5dd2-471d-b841-874a0f44152e")
@@ -6315,7 +6315,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10 kohm"
 			(at 3.81 1.92 0)
 			(layer "F.Fab")
 			(uuid "c9267eeb-7ef7-47e9-91ab-5fe274cce212")
@@ -6860,7 +6860,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10 kohm"
 			(at 3.81 1.92 0)
 			(layer "F.Fab")
 			(uuid "aec3837c-4dfb-4901-995e-85e2487889d8")
@@ -7744,7 +7744,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10 kohm"
 			(at 3.81 1.92 0)
 			(layer "F.Fab")
 			(uuid "b065da14-cb8e-4f61-8995-caf5e4439254")
@@ -8417,7 +8417,7 @@
 				)
 			)
 		)
-		(property "Value" "R_Trim"
+		(property "Value" "200 ohm"
 			(at 0 7.06 0)
 			(layer "F.Fab")
 			(uuid "54015637-217c-4789-bb18-8e2c3fa05ead")
@@ -9693,7 +9693,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "100 ohm"
 			(at 3.81 1.92 0)
 			(layer "F.Fab")
 			(uuid "8986fb9d-d10d-4956-9996-b47969e45f85")
@@ -10109,7 +10109,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10 kohm"
 			(at 3.81 1.92 0)
 			(layer "F.Fab")
 			(uuid "e60f9bb3-7ab1-4e26-8f89-5ebf5e8c9dbd")
@@ -10300,7 +10300,7 @@
 				)
 			)
 		)
-		(property "Value" "L"
+		(property "Value" "68uH"
 			(at 10.16 4.02 0)
 			(layer "F.Fab")
 			(uuid "07d6b0f7-f718-436a-ac9b-1a78dad38152")
@@ -10493,7 +10493,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4.7 kohm"
 			(at 3.81 1.92 90)
 			(layer "F.Fab")
 			(uuid "79f7d964-d9cb-4399-b7f3-b5d5ce2ee01f")
@@ -10960,7 +10960,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "1kohm"
 			(at 3.81 1.92 90)
 			(layer "F.Fab")
 			(uuid "369867e8-34bb-433f-b7b5-d8b43e073de9")
@@ -11151,7 +11151,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10 kohm"
 			(at 3.81 1.92 0)
 			(layer "F.Fab")
 			(uuid "7be5b041-1caa-4e0a-add7-8305bb35c945")
@@ -12021,7 +12021,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10 kohm"
 			(at 3.81 1.92 90)
 			(layer "F.Fab")
 			(uuid "cb27a0c0-2631-4d35-b45d-150b617f1665")
@@ -12212,7 +12212,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "3.6 kohm"
 			(at 3.81 1.92 90)
 			(layer "F.Fab")
 			(uuid "71672bee-e505-4fd5-8c72-7d465a722110")
@@ -12250,6 +12250,32 @@
 			(layer "F.SilkS")
 			(hide yes)
 			(uuid "129d30e6-9733-4b7b-b45e-9d7e0b472a90")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Field5" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "558134ba-bde0-4e1c-9eb9-70413c8abb30")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Field6" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "24c03e49-5240-4c7a-ac2a-687160227bcc")
 			(effects
 				(font
 					(size 1 1)
@@ -12403,7 +12429,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4.7 kohm"
 			(at 3.81 1.92 90)
 			(layer "F.Fab")
 			(uuid "35d6013d-8585-4f00-b087-d832a10a2c3b")
