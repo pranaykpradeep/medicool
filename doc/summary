@@ -1,0 +1,725 @@
+# **MediCool – Complete Project Summary**
+
+Project overview, mechanical design, cooling system, battery backup, power management, circuit architecture, calculations, component requirements and pending decisions · Updated 18 November 2026
+
+## **1. Project overview**
+
+**MediCool** is a compact, portable medicine cooling system designed to maintain a controlled low-temperature environment for storing temperature-sensitive medicines.
+
+The basic idea is to build a small insulated chamber using a Peltier thermoelectric cooling module, with fans for heat dissipation and cold-air circulation. The system should operate from an external power supply and also have a rechargeable battery backup.
+
+The project combines:
+
+- Thermoelectric cooling using a Peltier module.
+- An insulated medicine storage chamber.
+- Hot-side and cold-side heat management.
+- A rechargeable 18650 lithium-ion battery.
+- USB-C Power Delivery (PD) as the main external power source.
+- Automatic switching between external power and battery.
+- Regulated 12 V power for the cooling and control electronics.
+- ESP32-based monitoring and control.
+
+The main design challenge currently is not the cooling principle itself. It is building a reliable power system that can run the cooler, charge the battery when possible, and switch to battery power automatically when external power is disconnected.
+
+# **2. Mechanical design and enclosure**
+
+## **2.1 Enclosure dimensions**
+
+The dimensions discussed for the medicine chamber are:
+
+# **80 × 80 × 200 mm**
+
+**Overall internal design envelope**
+
+This includes the insulation thickness, not just the usable medicine-storage space.
+
+A major constraint is that we cannot use 30–40 mm insulation because it would consume too much of the available space.
+
+## **2.2 Insulation**
+
+The insulation options discussed were:
+
+[Polyurethane Rigid Foam, For Commercial Price & Specifications | Matrix Engineering Company – Bengaluru](https://images.openai.com/static-rsc-4/H4BosB45blYrX0-MEZUpdoy7g1VOvOw_DsTI1csXuIq8nK-P0SdIznE8h9qoQKZtJ1ZLFx_8H_gFL-F4qbUKEh49LcS3Esnxo4Di7OoE1Wqgc1H_piJdE9Mm0PnIbVqlllAF6m9T4HSNnAeh48yH_KmqeCSHCvfiU0yWAklMb7E?purpose=inline)
+
+**Polyurethane (PU) foam**
+
+Preferred insulation option because of its relatively good thermal insulation performance for its thickness.
+
+['Saviro' Polystyrene XPS Blue Board Perth Melbourne Sydney Brisbane Adelaide - Foam Sales](https://images.openai.com/static-rsc-4/HKW71ZOm8gEO3K5t2jCPJ2Byg50o4JVw9-IuWyIvp_OtNXqwIkjqEdLmWtPXjRXYLnKUPfSwZn4GXSD-JBhMer8yIEmwMJML0ff68DPvyvpviVXH9tRge7eLtIT3KATvbDNwee7O4QAPcS7ZnB17yyTsT_DjGI7eZ8YNOHQ-1X4?purpose=inline)
+
+**XPS insulation board**
+
+Alternative if PU foam is difficult to work with or source.
+
+The initial thickness considered was approximately 10 mm.
+
+With 10 mm insulation on each side, the approximate usable chamber dimensions would be:
+
+- Width: 60 mm
+- Depth: 60 mm
+- Height: 180 mm
+
+Approximate gross internal volume:
+
+\\[ 60 \times 60 \times 180 = 648000\text{ mm}^3 \\]
+
+\\[ \boxed{648\text{ cm}^3 \approx 0.648\text{ L}} \\]
+
+This is an approximate geometric volume, before allowing for the internal liner, cooling components and other obstructions.
+
+## **2.3 Internal lining and outer body**
+
+The suggested construction approach was:
+
+- Outer body: ABS or aluminium enclosure.
+- Insulation: PU foam or XPS.
+- Inner lining: thin PP or HDPE sheet.
+- Sealed joints to reduce cold-air leakage and moisture ingress.
+
+If spray PU foam is used, the enclosure needs to be designed so that the foam can expand without deforming the walls. Rigid foam boards may be easier to control in a small enclosure.
+
+[GPRS Temperature Recording on Time Cold Chain Vaccine Transport Cooler Box - Wireless Cooler Box and Storage Medical Transfer Box price](https://images.openai.com/static-rsc-4/uowHKZDllpUDNMTtGjPxv6-I6M7h1kg5j-734WGkI5WKIYcf2Oa10aQdGmPzdKOWFa8_tNwsnraIHXN8DvoJcpaAlte8tO6nkFXsEl1p4uxlpxMrKQxWbP8qjuVgzu-8m8ffbqDglIGCkExMAxmbNgGyCWG7q_KnDrhsfUoFXj8?purpose=inline)
+
+[半导体车载冰箱：让科技走进生活-杭州大和热磁](https://images.openai.com/static-rsc-4/u2sN9__SWqp6dOCL1F0ySrWFjQ6tsg6qdJyPrcfqHCnlRN7jMNikuHkGw-b2MyfrSHp8Fb5IavXzPgaKbR6f1L2fXggQ6Qki68BNMr6N2uOkW5inKhZaQktvMmodA5QscUmVEDWwKR3_rfrdPrQxSnLb6zejOs1Lm5L0NkVKNE8?purpose=inline)
+
+[How to Make a Mini Fridge : 19 Steps (with Pictures) - Instructables](https://images.openai.com/static-rsc-4/vn74QpI3EKOUecw-bAPh2Gb3ex6sx4vLwDPvc5Bj4T7ItIAR5F_Yz9-gvt0RV6wsNymFF5VrMkH127sIJ81POIPS7wg8xVSxXjS3Iu2cGVIPYRGlYQS4BQyzOPvcCYgXKJp6mjwxWIEVIgUPEfCCRBIb-UvonXcAIgrfNsqxc6I?purpose=inline)
+
+9
+
+# **3. Cooling system**
+
+## **3.1 Peltier module**
+
+The selected cooling load discussed so far is:
+
+# **12 V · 6 A**
+
+**Peltier module maximum electrical load**
+
+# **72 W**
+
+\\[ P=V\times I=12\times6=72\text{ W} \\]
+
+The Peltier module works using the thermoelectric effect. When DC power is applied, one side becomes cold and the other side becomes hot.
+
+The hot side must continuously release the heat it receives from the cold side, plus the electrical energy consumed by the Peltier module.
+
+This makes hot-side heat dissipation extremely important.
+
+## **3.2 Cooling arrangement**
+
+The design direction discussed was to place the Peltier assembly on the side of the medicine chamber rather than underneath it.
+
+The intended arrangement is:
+
+- Peltier module mounted on the side wall.
+- Hot-side heatsink and fan placed outside the chamber.
+- Cold-side heatsink placed inside the chamber.
+- A small internal fan to circulate cold air inside the medicine chamber.
+- Hot-side air intake and outlet arranged to maintain proper airflow.
+
+[File:Peltier Cooling Diagram.jpg - Wikimedia Commons](https://images.openai.com/static-rsc-4/RnA-lhkQFEiGeew8pgT1zlLGRjAUqGNYGfMlGSGkHul7aaT25wXoZOEcTV6saW2u8hv3GsaLwovL-c5-i-rfBa2dB7MLyv9EAJk7e9ZrFgYdJ5zLZI9qHLk6_4qkq9NWTNH0dvOqJg2I0s4sTH8KV4llcOCLhc1mb3nY0f5X2j0?purpose=inline)
+
+[Schematic of thermoelectric refrigerator \[25\] | Download Scientific Diagram](https://images.openai.com/static-rsc-4/lT3b0edHPWik_hUOrrbO2B9-a5svRJHiOvglPisL7DWsfW7geRMw1OFGoYx2q6gVFSP7xNGb9dJLLSIelQjFhoTTAkxbpgJX9KE60o6PzUogGLend3SQyiWMmuQVIXw5ukenhkHGYZevItt-SvYNnLzORn1T1W7EcHynIOps2iQ?purpose=inline)
+
+8
+
+**Important:** The hot-side heatsink must be sufficiently large, with good thermal contact and airflow. If the hot side becomes too hot, the cooling performance will drop significantly and the Peltier module may be damaged.
+
+## **3.3 Airflow**
+
+There are two different airflow systems:
+
+**Cold side**
+
+- Circulates air within the medicine chamber.
+- Helps distribute the cooling more evenly.
+- Should avoid directing excessively cold air onto one particular medicine container.
+
+**Hot side**
+
+- Removes heat from the external heatsink.
+- Prevents heat accumulation around the Peltier module.
+- Should not recirculate its hot exhaust into its own intake.
+
+These two airflow paths should be separated as much as possible.
+
+## **3.4 Temperature control**
+
+The intended control system can use an ESP32 to:
+
+1. Read the chamber temperature using a suitable temperature sensor.
+2. Compare the measured temperature with the setpoint.
+3. Control the Peltier module.
+4. Control or monitor the fans.
+5. Display or communicate temperature information.
+6. Provide temperature alarms if required.
+
+The exact temperature setpoint, sensor model, control algorithm and alarm limits have not yet been finalized.
+
+For an actual medicine-storage application, the target temperature must be selected based on the medicine manufacturer's storage instructions. The cooler will also need temperature testing and validation before being trusted with medicines.
+
+# **4. Battery system**
+
+## **4.1 Battery configuration**
+
+The battery configuration being considered is:
+
+# **3S4P · 18650 Li-ion**
+
+Cell arrangement
+
+**3 series × 4 parallel**
+
+Nominal voltage
+
+**11.1 V**
+
+Full-charge voltage
+
+**12.6 V**
+
+Target capacity
+
+**10 Ah**
+
+Nominal energy
+
+**111 Wh**
+
+Cell count
+
+**12 cells**
+
+The configuration means:
+
+- Three cell groups connected in series.
+- Four cells connected in parallel within each group.
+- Twelve 18650 cells in total.
+
+For cells rated at 2500 mAh each:
+
+\\[ 4\times2.5=10\text{ Ah} \\]
+
+Nominal battery energy:
+
+\\[ 11.1\times10=\boxed{111\text{ Wh}} \\]
+
+The actual capacity depends on the cells selected.
+
+## **4.2 BMS**
+
+The battery pack is intended to have a Battery Management System (BMS).
+
+The BMS should provide:
+
+- Overcharge protection.
+- Over-discharge protection.
+- Overcurrent protection.
+- Short-circuit protection.
+- Cell-group balancing, if supported by the selected BMS.
+
+A 3S BMS is required because the pack has three series-connected cell groups.
+
+We discussed a possible 20 A continuous-discharge BMS rating. However, this must be verified against the actual battery pack and its cells. A BMS advertised as 20 A does not automatically mean the cells can safely supply 20 A.
+
+**One important distinction:** The BMS protects the battery. It is not the battery charger.
+
+## **4.3 Battery charging limits**
+
+The expected full-charge voltage is:
+
+\\[ 3\times4.2=\boxed{12.6\text{ V}} \\]
+
+The charging current discussed was approximately 3 A, but the actual permissible current must be confirmed from the cell and battery-pack specifications.
+
+The charger must use a proper CC/CV charging method:
+
+- CC: constant-current charging.
+- CV: constant-voltage charging.
+- Final voltage: 12.6 V for a standard 3S Li-ion pack.
+- Proper charge termination and protection.
+
+# **5. External power supply**
+
+## **5.1 Existing USB-C PD charger**
+
+You already have a USB-C PD charger with the following output ratings:
+
+| Output voltage | Maximum current |
+| -------------- | --------------- |
+| 5 V            | 3 A             |
+| 9 V            | 3 A             |
+| 15 V           | 3 A             |
+| 20 V           | 4.5 A           |
+
+Maximum advertised power:
+
+\\[ 20\times4.5=\boxed{90\text{ W}} \\]
+
+The charger supports variable voltage and you have its original cable, which is used for 90 W phone charging.
+
+The cable's 5 A e-marker compatibility should still be confirmed before relying on 20 V at 4.5 A.
+
+## **5.2 PD trigger board**
+
+A USB-C PD trigger board is needed to request 20 V from the charger.
+
+The proposed arrangement is:
+
+\\[ \text{USB-C PD Charger} \rightarrow \text{PD Trigger} \rightarrow 20\text{ V DC} \\]
+
+The PD trigger does not convert the voltage. It negotiates the required voltage with the PD charger.
+
+We had identified a possible 100 W PD trigger board from Robu, but the exact board's output connector, current capability and PCB track capacity must be checked before purchase.
+
+The high-current cooler supply should use suitable DC output terminals and wiring, not a small USB connector.
+
+# **6. Main power-management architecture**
+
+This is the most important part of the current design.
+
+The goal is to run the cooler from external power whenever available and automatically change to battery power when the PD supply is disconnected.
+
+The current proposed arrangement uses a changeover relay and a regulated 12 V output stage.
+
+## **6.1 Overall architecture**
+
+**USB-C PD adapter**
+
+# **20 V / 90 W**
+
+**USB-C PD trigger board**
+
+Negotiates 20 V output
+
+**20 V DC power distribution**
+
+**External power path**
+
+PD 20 V → relay NO
+
+**Charging path**
+
+PD 20 V → 3S charger → battery
+
+**Relay changeover**
+
+- NO: external 20 V supply
+- NC: battery supply
+- COM: selected supply output
+
+**Main buck-boost converter**
+
+9–20 V input → regulated 12 V output
+
+**12 V cooler bus**
+
+Peltier + hot-side fan + cold-side fan + control electronics
+
+This is the intended architecture, not a completed or tested circuit. The negative/ground connections, relay isolation and converter enable behaviour must be checked against the actual modules before wiring.
+
+## **6.2 Relay operation**
+
+The relay is intended to switch between the external supply and the battery.
+
+A 5-pin SPDT relay has:
+
+| Pin | Function             |
+| --- | -------------------- |
+| 30  | Common               |
+| 87  | Normally open (NO)   |
+| 87a | Normally closed (NC) |
+| 85  | Coil negative        |
+| 86  | Coil positive        |
+
+The proposed connections:
+
+- PD 20 V to pin 87.
+- Battery positive, through the BMS, to pin 87a.
+- Pin 30 to the main buck-boost converter input.
+- Pin 86 to +12 V coil supply.
+- Pin 85 to ground.
+
+When external power is available, the coil is energized and the relay selects the NO contact.
+
+When external power disappears, the coil de-energizes and the relay returns to NC, selecting the battery.
+
+[New energy relay 5P 12V 40/30A metal bracket /resistor With magnet NO/NC - ZDEF-12MZSR - Autoelettric](https://images.openai.com/static-rsc-4/HawUq2G7vguLOVRyQMN9do2xkotJ_1wISi1V75j3K3xfOwuzP6OE-xpyV7l6np-fw5IxD1HmhXWFPUwu4cfVcsNWP53U9UxJBzE8GAk15tRGg87inYRnZpAUqyl4O-yYuhtvT1fC-L_3_8DzP2ZGuI3PrIw8BdGTim1hYdHJ5uY?purpose=inline)
+
+[autoelettric.com](https://www.autoelettric.com/product/new-energy-relay-5p-12v-40-30a-metal-bracket-resistor-with-magnet-no-nc-zdef-12mzsr/?utm_source=chatgpt.com)
+
+**Important:** The selected relay must be rated for the actual DC voltage and current. An automotive relay advertised as 30 A is not automatically guaranteed to switch 20 V DC at 30 A.
+
+We have discussed one SPDT changeover relay as the current architecture. A second relay should only be added if a separate switching function is actually required.
+
+## **6.3 Relay coil power**
+
+The relay coil needs 12 V.
+
+The external supply is 20 V, so we need a small buck converter:
+
+\\[ 20\text{ V}\rightarrow12\text{ V} \\]
+
+The relay coil connects across this converter's 12 V output.
+
+It must be connected in parallel, not in series with the main power supply.
+
+If the relay does not have built-in coil suppression, a flyback diode can be installed across the coil:
+
+- Diode cathode to +12 V.
+- Diode anode to ground.
+
+If the relay contains an internal diode, its marked polarity must be followed.
+
+The coil supply must only energize the relay when the external PD supply is available.
+
+## **6.4 Main buck-boost converter**
+
+This is the second regulator.
+
+The battery voltage changes during use:
+
+- Fully charged: 12.6 V.
+- Nominal: 11.1 V.
+- Near the lower operating region: approximately 9 V, subject to the cell specifications and cutoff settings.
+
+The external PD supply is 20 V.
+
+The cooler requires a regulated 12 V supply.
+
+Therefore, the selected converter must accept the complete input range and regulate the output:
+
+\\[ \boxed{9\text{–}20\text{ V input}\rightarrow12\text{ V output}} \\]
+
+It must be a true buck-boost converter, not a simple buck or boost converter.
+
+You have seen 300 W-labelled modules on Amazon. They could be candidates, but we should check:
+
+- Actual continuous output power.
+- Continuous output current at 12 V.
+- Input voltage range, including 9 V.
+- Efficiency at the intended operating point.
+- Cooling requirements.
+- Thermal derating.
+- Input and output terminal ratings.
+- Overcurrent and thermal protection.
+
+A 300 W advertisement alone does not prove that the module can continuously deliver the required power in our enclosure.
+
+# **7. Battery charging – the remaining major challenge**
+
+This is the component we have not yet satisfactorily sourced.
+
+## **7.1 What we need**
+
+The charger must accept the 20 V output from the PD trigger and charge the 3S battery.
+
+The required behaviour is:
+
+\\[ 20\text{ V DC input} \rightarrow \text{3S Li-ion CC/CV charger} \rightarrow 12.6\text{ V battery} \\]
+
+The charger should have:
+
+- Input voltage compatible with 20 V DC.
+- 12.6 V final charging voltage.
+- Adjustable charging current.
+- Constant-current and constant-voltage operation.
+- Proper charging termination.
+- Appropriate protection and thermal management.
+- Compatibility with the battery's BMS and connection arrangement.
+
+## **7.2 Why the commonly available boards are unsuitable**
+
+We found several products advertised as 3S 12.6 V chargers, but their input specifications do not match our requirement.
+
+| Charger type found                | Problem                                                          |
+| --------------------------------- | ---------------------------------------------------------------- |
+| USB-C 3S charger boards           | Many accept only 5 V input                                       |
+| Small Type-C boost charger boards | Designed to boost 5 V to 12.6 V                                  |
+| Robu 12.6 V AC charger            | Uses AC mains, not 20 V DC                                       |
+| Generic CC/CV DC-DC modules       | May not provide complete Li-ion charging termination and control |
+
+A simple adjustable buck converter set to 12.6 V is not a proper battery charger. Likewise, the BMS does not make an unsuitable power supply safe to use as a charger.
+
+## **7.3 Smart balance charger option**
+
+We discussed a possible alternative: a smart hobby balance charger, such as the SkyRC B6ACneo.
+
+[Karikues modeli SKYRC B6AC Neo, 10A, multifunksional per LiPo | Gjirafa50](https://images.openai.com/static-rsc-4/JOm3ZPJkHaRI09jKNacej2tjoaMe33rLG9NwUoul38oTVxtRHqIEcOVaOsR39dcRzqnyu_qm5tw0H2MuKbDZTDLIkAzGIwiXqb8HLG4xbp70UDEu_WcpVs8QTYxf6XarjxrU6AYwBq4GgyPupt7rH8fOs5Il6PfmWdl5tshrj1s?purpose=inline)
+
+[gjirafa50.com](https://gjirafa50.com/karikues-modeli-skyrc-b6ac-neo-10a-multifunksional-per-lipo-liion-lifepo-nimh-nicd-gri?utm_source=chatgpt.com)
+
+The idea is:
+
+\\[ 20\text{ V PD} \rightarrow \text{PD trigger} \rightarrow \text{smart charger} \rightarrow \text{3S battery} \\]
+
+This type of charger can manage the charging process itself.
+
+However, the important requirement is that the battery needs an appropriate balance connector, normally a 4-wire connection for a 3S pack.
+
+The charger and battery must also be configured for the correct lithium-ion chemistry and charging voltage.
+
+**This is a candidate, not a finalized purchase.** We still need to verify the exact charger model, input mode, charging profile, battery connector and pack compatibility.
+
+## **7.4 Battery balance connector question**
+
+The current battery design has two main external terminals for charging and discharging.
+
+We have not yet established whether the pack also has a separate 4-wire balance connector.
+
+That is important because:
+
+- A normal 3S pack has three series-connected cell groups.
+- A balance charger needs access to the individual group voltages.
+- The main positive and negative wires alone do not provide individual cell-group voltage measurements to a conventional balance charger.
+
+The battery supplier needs to confirm the pack wiring and whether a balance connector is available.
+
+# **8. Power calculations**
+
+## **8.1 Cooler power consumption**
+
+The Peltier module alone consumes:
+
+\\[ 12\times6=72\text{ W} \\]
+
+The fans and ESP32 add additional power consumption.
+
+The estimated complete system load is approximately 80–85 W.
+
+This is an estimate, not a measured result.
+
+## **8.2 Can the 90 W PD adapter run everything?**
+
+The converter will have some losses.
+
+Assuming 90% efficiency:
+
+\\[ P\_{\text{input}}=\frac{P\_{\text{output}}}{0.9} \\]
+
+For an 85 W output:
+
+\\[ P\_{\text{input}}=\frac{85}{0.9} \\]
+
+\\[ \boxed{94.4\text{ W}} \\]
+
+That exceeds the adapter's 90 W maximum.
+
+Therefore, the PD adapter cannot guarantee full 85 W cooler operation continuously through the converter at 90% efficiency.
+
+The actual result depends on the Peltier power, fan power and converter efficiency.
+
+## **8.3 Our power-management decision**
+
+We agreed that cooling should receive priority.
+
+Battery charging can be reduced or stopped when the Peltier load is high.
+
+The intended approach is:
+
+- Prioritize the cooler.
+- Use available remaining input power for battery charging.
+- Reduce or stop charging when cooler demand rises.
+- Avoid exceeding the PD adapter's negotiated power limit.
+
+The initial target discussed for external power consumption was approximately 75–80 W, subject to actual measurements.
+
+A charging controller or power-management control strategy will be needed to implement this priority reliably. The proposed relay alone does not automatically regulate the battery charging current according to cooler demand.
+
+## **8.4 Battery current**
+
+At the lower end of the battery's operating voltage, the current required to produce 85 W at 90% efficiency is:
+
+\\[ I=\frac{P}{V\eta} \\]
+
+At 9 V:
+
+\\[ I=\frac{85}{9\times0.9} \\]
+
+\\[ \boxed{I\approx10.5\text{ A}} \\]
+
+So the battery and its BMS must be capable of supplying this current continuously, with suitable margin.
+
+The actual permissible current depends on the cells, BMS, wiring, connectors and operating temperature.
+
+## **8.5 Estimated runtime**
+
+The nominal energy is approximately 111 Wh.
+
+At an 85 W load:
+
+\\[ t=\frac{111}{85} \\]
+
+\\[ t\approx1.31\text{ hours} \\]
+
+This is an ideal energy calculation.
+
+After accounting for converter losses, usable battery capacity, voltage cutoff, temperature and operating conditions, the practical runtime may be closer to approximately 0.9–1.1 hours.
+
+This is only a preliminary estimate. Actual runtime must be measured.
+
+# **9. Current component checklist**
+
+The following is the complete component checklist based on our current design.
+
+**A. Cooling system**
+
+| Component                | Requirement                    | Status                 |
+| ------------------------ | ------------------------------ | ---------------------- |
+| Peltier module           | 12 V, 6 A                      | Selected specification |
+| Hot-side heatsink        | Suitable for Peltier heat load | To select              |
+| Hot-side fan             | Suitable voltage and airflow   | To select              |
+| Cold-side heatsink       | Compatible with Peltier        | To select              |
+| Internal circulation fan | Small 12 V fan                 | To select              |
+| Temperature sensor       | Suitable accuracy and range    | To select              |
+| Thermal paste            | For Peltier/heatsink interface | To buy                 |
+| Thermal insulation       | Approx. 10 mm PU/XPS           | To finalize            |
+| Inner liner              | Thin PP/HDPE                   | To finalize            |
+| Outer enclosure          | ABS/aluminium                  | To design              |
+
+**B. Battery system**
+
+| Component         | Requirement                              | Status                   |
+| ----------------- | ---------------------------------------- | ------------------------ |
+| 18650 cells       | 12 cells, 3S4P                           | Specification to confirm |
+| Battery pack      | 11.1 V, approx. 10 Ah                    | Proposed                 |
+| BMS               | 3S, suitable continuous discharge rating | To verify                |
+| Balance connector | 4-wire if balance charger used           | Unknown                  |
+| Battery wiring    | Suitable current capacity                | To select                |
+| Battery fuse      | Suitable DC-rated fuse                   | Required                 |
+
+**C. External power and conversion**
+
+| Component        | Requirement                         | Status                    |
+| ---------------- | ----------------------------------- | ------------------------- |
+| USB-C PD adapter | 20 V, 4.5 A, 90 W                   | Already available         |
+| USB-C cable      | Suitable for 5 A operation          | To verify                 |
+| PD trigger       | Negotiates 20 V                     | Candidate identified      |
+| Relay-coil buck  | 20 V to 12 V                        | Common module             |
+| Main converter   | 9–20 V to 12 V buck-boost           | Candidate search underway |
+| Changeover relay | SPDT, appropriate DC contact rating | Candidate identified      |
+| Relay socket     | Compatible with relay and current   | To select                 |
+| Flyback diode    | If coil lacks internal suppression  | To verify                 |
+
+**D. Battery charging**
+
+| Component              | Requirement                         | Status              |
+| ---------------------- | ----------------------------------- | ------------------- |
+| 3S charger             | 20 V DC input, 12.6 V CC/CV         | **Not finalized**   |
+| Charge-current setting | Within battery manufacturer's limit | To confirm          |
+| Charge termination     | Proper Li-ion termination           | Required            |
+| Balance charger option | Compatible 3S balance charging      | Under consideration |
+
+**E. Monitoring and protection**
+
+| Component              | Requirement                     | Status       |
+| ---------------------- | ------------------------------- | ------------ |
+| ESP32                  | Control and monitoring          | Planned      |
+| Voltage measurement    | Battery/input monitoring        | To implement |
+| Current measurement    | Load and charging monitoring    | To implement |
+| Temperature monitoring | Chamber and heatsink            | To implement |
+| Main fuse              | External power input protection | Required     |
+| Battery fuse           | Battery branch protection       | Required     |
+| Load fuse              | Cooler branch protection        | Required     |
+| Wiring/connectors      | Rated for actual currents       | To select    |
+
+# **10. Safety and design considerations**
+
+Several things must be handled carefully before assembling the final circuit.
+
+### **Battery safety**
+
+- Use matched cells with known specifications.
+- Confirm the BMS is appropriate for the cell arrangement.
+- Never charge the pack with an ordinary fixed-voltage supply.
+- Never bypass the BMS for normal charging or discharging.
+- Use suitable fusing close to the battery.
+- Ensure the battery cannot be exposed to excessive heat from the Peltier hot side.
+
+### **Power supply safety**
+
+- Do not connect 20 V directly to the 12 V Peltier module.
+- Do not connect the 20 V PD supply directly to the battery.
+- Do not assume the BMS acts as a charging controller.
+- Ensure the relay contacts can switch the actual DC voltage and current.
+- Verify the converter's continuous output capability.
+
+### **Thermal safety**
+
+- Provide sufficient heatsink capacity.
+- Prevent hot-side exhaust from returning to the intake.
+- Monitor the Peltier hot-side temperature.
+- Provide a safe shutdown condition if the heatsink overheats.
+- Prevent condensation and water from reaching electrical components.
+
+### **Switching safety**
+
+- Check that external power and battery power cannot be connected together unintentionally.
+- Verify the relay's break-before-make behaviour.
+- Ensure the converter can tolerate the input transition.
+- Test the switching sequence without the Peltier connected first.
+
+# **11. Current design decisions versus unresolved decisions**
+
+This is the clearest way to understand where we stand.
+
+| Area                        | Current decision                      |
+| --------------------------- | ------------------------------------- |
+| Project                     | Portable medicine cooler              |
+| Enclosure envelope          | 80 × 80 × 200 mm including insulation |
+| Insulation                  | Approximately 10 mm PU/XPS initially  |
+| Cooling method              | Peltier thermoelectric                |
+| Peltier rating              | 12 V, 6 A                             |
+| Cooling arrangement         | Side-mounted Peltier assembly         |
+| Internal airflow            | Separate small cold-side fan          |
+| Battery                     | 3S4P 18650, approximately 10 Ah       |
+| Battery nominal voltage     | 11.1 V                                |
+| Battery full-charge voltage | 12.6 V                                |
+| External supply             | Existing 90 W USB-C PD adapter        |
+| PD voltage                  | 20 V                                  |
+| External negotiation        | PD trigger board                      |
+| Supply selection            | SPDT relay                            |
+| Relay coil                  | Separate 20 V to 12 V buck            |
+| Main regulation             | 9–20 V to 12 V buck-boost             |
+| Battery charging            | Proper 3S CC/CV charger               |
+| Power priority              | Cooling first, charging second        |
+
+## **The five biggest unresolved items**
+
+1. **Battery charger:** Find and verify a proper 20 V-input, 12.6 V CC/CV charger, or finalize a compatible smart balance charger.
+2. **Main buck-boost converter:** Verify the actual continuous power rating and thermal performance of the 300 W-labelled module you have seen.
+3. **Battery specification:** Confirm cell model, discharge current, charging limit, BMS rating and balance connector.
+4. **Relay:** Verify the actual DC contact rating at the switched voltage and current.
+5. **Power management:** Implement charging-current reduction or charging shutdown when the cooler needs most of the PD adapter's available power.
+
+# **12. Recommended next steps**
+
+I would proceed in this order rather than buying everything at once.
+
+1. **Finalize the battery pack specifications**
+
+   Get the exact cell model, 3S4P dimensions, BMS specifications, maximum charging current and balance connector details from the supplier.
+2. **Finalize the battery charging method**
+
+   This is our biggest unresolved part. First determine whether the pack has a balance connector. Then choose a compatible smart charger or a suitable embedded 3S charger.
+3. **Verify the main buck-boost converter**
+
+   Check the Amazon listing and datasheet of the 300 W module you found. We need its exact model, input range and continuous 12 V output current.
+4. **Finalize relay and coil supply**
+
+   Confirm the relay's DC contact rating and the small 20 V-to-12 V buck converter.
+5. **Build and test the power system separately**
+
+   Test external-power operation, battery operation, automatic switching, converter temperature and charging behaviour before connecting the Peltier.
+6. **Integrate the cooling system**
+
+   Install the Peltier, heatsinks, fans, temperature sensor and ESP32. Then measure actual power consumption and cooling performance.
+
+## **My overall assessment**
+
+The project architecture is taking shape. We have a reasonably clear mechanical direction, a defined Peltier load, a proposed battery configuration, an existing 90 W PD power source, and a workable concept for automatic external/battery switching.
+
+However, I would not call the power design finalized yet. In particular, the battery charger and main converter must be verified against real datasheets, and the 90 W input limit means full cooling and simultaneous charging may not always be possible.
+
+**The next priority should be the battery charger—not buying more random modules.** Once we settle that, we can freeze the electrical architecture and prepare the final wiring diagram.@
