@@ -1,0 +1,64 @@
+name: Build & Release MediCool APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'microsoft'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: |
+          cd codes/version2.0/mobile_app
+          flutter pub get
+
+      - name: Build Android Release APK
+        run: |
+          cd codes/version2.0/mobile_app
+          flutter build apk --release
+
+      - name: Copy & Rename APK
+        run: |
+          cp codes/version2.0/mobile_app/build/app/outputs/flutter-apk/app-release.apk medicool_companion_app.apk
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: medicool_companion_app.apk
+          name: MediCool Mobile Release ${{ github.ref_name }}
+          body: |
+            ## MediCool Portable Medical Cooler Companion App
+            
+            ### Features in this release:
+            - Native Bluetooth Low Energy (BLE) connectivity
+            - Real-time WHO 2°C–8°C cold-chain telemetry & stability curve
+            - Integrated medicine target presets (Insulin, Vaccines, Eye Drops)
+            - Proportional heatsink blower & cold destratification controls
+            - 100% Turbo Overdrive pull-down mode with safety warning modal
+            - Smartwatch-style Device Health card and WHO MKT compliance audit
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

@@ -1,0 +1,28 @@
+# Build outputs & large binaries
+*.apk
+*.aab
+*.exe
+*.o
+*.d
+*.elf
+*.bin
+build/
+**/build/
+
+# Android generated
+.gradle/
+**/.gradle/
+
+# Python temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS generated files
+Thumbs.db
+[Dd]esktop.ini
+.DS_Store
+
+# Editor folders
+.vscode/
+.idea/
