@@ -1316,7 +1316,7 @@ class _RootNavigationHubState extends State<RootNavigationHub> {
                     value: manualHotDuty.toDouble(),
                     min: 50,
                     max: 255,
-                    activeThumbColor: const Color(0xFFEF476F),
+                    activeColor: const Color(0xFFEF476F),
                     onChanged: (v) {
                       setState(() {
                         manualHotDuty = v.toInt();
